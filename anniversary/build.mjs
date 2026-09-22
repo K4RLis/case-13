@@ -4,8 +4,8 @@
 //
 //   node anniversary/build.mjs "пароль"
 //
-// Фото берутся из anniversary/photos/1.jpg … 5.jpg (папка в .gitignore).
-import { readFileSync, writeFileSync } from 'node:fs';
+// Фото берутся из anniversary/photos/1.jpg … 10.jpg (или .png; папка в .gitignore).
+import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { webcrypto as crypto } from 'node:crypto';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -20,8 +20,14 @@ const pwd = normalize(process.argv[2] || '');
 if (!pwd) { console.error('Использование: node anniversary/build.mjs "пароль"'); process.exit(1); }
 
 let html = readFileSync(join(dir, 'src/content.html'), 'utf8');
-html = html.replace(/\{\{PHOTO_(\d+)\}\}/g, (_, n) =>
-  'data:image/jpeg;base64,' + readFileSync(join(dir, 'photos', `${n}.jpg`)).toString('base64'));
+const photo = n => {
+  for (const [ext, mime] of [['jpg', 'jpeg'], ['png', 'png']]) {
+    const f = join(dir, 'photos', `${n}.${ext}`);
+    if (existsSync(f)) return `data:image/${mime};base64,` + readFileSync(f).toString('base64');
+  }
+  throw new Error(`Нет фото photos/${n}.jpg или .png`);
+};
+html = html.replace(/\{\{PHOTO_(\d+)\}\}/g, (_, n) => photo(n));
 
 const salt = crypto.getRandomValues(new Uint8Array(16));
 const iv = crypto.getRandomValues(new Uint8Array(12));
