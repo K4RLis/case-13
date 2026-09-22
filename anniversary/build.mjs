@@ -4,7 +4,7 @@
 //
 //   node anniversary/build.mjs "пароль"
 //
-// Фото берутся из anniversary/photos/1.jpg … 10.jpg (или .png; папка в .gitignore).
+// Фото берутся из anniversary/photos/1.jpg … 15.jpg (или .png; папка в .gitignore).
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { webcrypto as crypto } from 'node:crypto';
 import { dirname, join } from 'node:path';
