@@ -4,7 +4,8 @@
 //
 //   node anniversary/build.mjs "пароль"
 //
-// Фото берутся из anniversary/photos/1.jpg … 25.jpg (или .png; папка в .gitignore).
+// Фото берутся из anniversary/photos/1.jpg … 25.jpg (или .png; папка в .gitignore),
+// музыка - из anniversary/photos/song.mp3.
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { webcrypto as crypto } from 'node:crypto';
 import { dirname, join } from 'node:path';
@@ -28,6 +29,7 @@ const photo = n => {
   throw new Error(`Нет фото photos/${n}.jpg или .png`);
 };
 html = html.replace(/\{\{PHOTO_(\d+)\}\}/g, (_, n) => photo(n));
+html = html.replace('{{SONG}}', 'data:audio/mpeg;base64,' + readFileSync(join(dir, 'photos', 'song.mp3')).toString('base64'));
 
 const salt = crypto.getRandomValues(new Uint8Array(16));
 const iv = crypto.getRandomValues(new Uint8Array(12));

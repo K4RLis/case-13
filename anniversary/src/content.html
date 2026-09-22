@@ -72,6 +72,12 @@
   .finale h2.show{opacity:1; transform:scale(1)}
   .finale .love{margin-top:18px; font-size:clamp(20px,5vw,26px); font-style:italic; opacity:0; transition:opacity 1.6s ease 1s; color:var(--rose-soft)}
   .finale .love.show{opacity:1}
+  .music{position:fixed; right:18px; bottom:18px; z-index:6; width:52px; height:52px; border-radius:50%; border:1px solid rgba(255,179,199,.4);
+    background:rgba(42,15,28,.75); color:var(--rose-soft); font-size:22px; cursor:pointer; backdrop-filter:blur(6px);
+    box-shadow:0 6px 20px rgba(0,0,0,.4); transition:transform .2s}
+  .music:hover{transform:scale(1.08)}
+  .music.playing{animation:spin 6s linear infinite}
+  @keyframes spin{to{transform:rotate(360deg)}}
   .burst{position:fixed; pointer-events:none; z-index:5; font-size:24px; will-change:transform,opacity}
 
   @media (prefers-reduced-motion: reduce){
@@ -82,6 +88,7 @@
 </head>
 <body>
 <canvas id="sky"></canvas>
+<button class="music" id="music" aria-label="Музыка">♪</button>
 
 <section class="hero">
   <div class="kicker">наша годовщина</div>
@@ -158,6 +165,19 @@
 
 <script>
 (function(){
+  // music: the first song, started right after the password (see primeMusic on the lock page)
+  const btn=document.getElementById('music');
+  const song=window.__music||new Audio();
+  song.src='{{SONG}}'; song.loop=true; song.volume=.7;
+  const sync=()=>btn.classList.toggle('playing',!song.paused);
+  song.addEventListener('play',sync); song.addEventListener('pause',sync);
+  song.play().catch(()=>{
+    // autoplay was blocked: start on the first click anywhere
+    const go=()=>{song.play().catch(()=>{}); removeEventListener('pointerdown',go)};
+    addEventListener('pointerdown',go);
+  });
+  btn.addEventListener('click',e=>{e.stopPropagation(); song.paused?song.play():song.pause()});
+
   // floating hearts in the background
   const c=document.getElementById('sky'), x=c.getContext('2d');
   let W,H,dpr=Math.min(window.devicePixelRatio||1,2), hs=[];

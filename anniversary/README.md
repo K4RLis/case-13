@@ -6,7 +6,7 @@
 
 ## Как поменять пароль, фото или текст
 
-1. Положи фото в `anniversary/photos/1.jpg` … `25.jpg` (можно `.png`) (эта папка в `.gitignore` и не коммитится).
+1. Положи фото в `anniversary/photos/1.jpg` … `25.jpg` (можно `.png`) и музыку в `anniversary/photos/song.mp3` (эта папка в `.gitignore` и не коммитится).
 2. Текст правится в `anniversary/src/content.html`.
 3. Собери: `node anniversary/build.mjs "новый пароль"` и закоммить `anniversary/index.html`.
 

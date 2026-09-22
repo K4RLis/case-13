@@ -47,7 +47,18 @@
 <script>
 const PAYLOAD='{{PAYLOAD}}';
 const normalize=s=>s.trim().toLowerCase().replace(/ё/g,'е').replace(/\s+/g,'');
+// Safari only lets audio start inside a user gesture, so an element is "unlocked" with
+// a short silent clip right on click; the site then swaps in the song (window survives document.open).
+function primeMusic(){
+  if(window.__music) return;
+  const n=4410, b=new DataView(new ArrayBuffer(44+n*2)), w=(o,t)=>[...t].forEach((c,i)=>b.setUint8(o+i,c.charCodeAt(0)));
+  w(0,'RIFF'); b.setUint32(4,36+n*2,true); w(8,'WAVEfmt '); b.setUint32(16,16,true); b.setUint16(20,1,true); b.setUint16(22,1,true);
+  b.setUint32(24,44100,true); b.setUint32(28,88200,true); b.setUint16(32,2,true); b.setUint16(34,16,true); w(36,'data'); b.setUint32(40,n*2,true);
+  const a=new Audio(URL.createObjectURL(new Blob([b],{type:'audio/wav'})));
+  a.play().catch(()=>{}); window.__music=a;
+}
 async function unlock(){
+  primeMusic();
   const btn=document.getElementById('go'), msg=document.getElementById('msg'), card=document.getElementById('card');
   const pwd=normalize(document.getElementById('pw').value||'');
   if(!pwd){ msg.textContent='Сначала введи пароль ❤'; return; }
