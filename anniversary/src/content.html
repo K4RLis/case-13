@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>С годовщиной, любимая</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Marck+Script&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#1a0b12; --bg2:#2a0f1c; --rose:#ff5c8a; --rose-soft:#ffb3c7; --cream:#fff4f0; --gold:#f3c77b;
+  }
+  *{box-sizing:border-box; margin:0; padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:'Cormorant Garamond',Georgia,serif; color:var(--cream); background:var(--bg);
+    overflow-x:hidden; line-height:1.5;
+  }
+  body::before{content:''; position:fixed; inset:0; z-index:0; pointer-events:none;
+    background:radial-gradient(1200px 800px at 50% -10%, #4a1530 0%, transparent 60%),
+               radial-gradient(900px 700px at 100% 100%, #3a1022 0%, transparent 60%)}
+  #sky{position:fixed; inset:0; pointer-events:none; z-index:0}
+  section{position:relative; z-index:1; min-height:100vh; padding:80px 16px; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center}
+  .script{font-family:'Marck Script',cursive; font-weight:400}
+
+  /* hero */
+  .kicker{letter-spacing:.35em; text-transform:uppercase; font-size:13px; color:var(--rose-soft); opacity:.85}
+  .hero h1{font-size:clamp(46px,11vw,96px); line-height:1.05; margin:14px 0 8px; color:#fff;
+    text-shadow:0 0 30px rgba(255,92,138,.55)}
+  .hero p{font-size:clamp(18px,4.4vw,22px); font-style:italic; opacity:.9; max-width:520px}
+  .beat{width:120px; height:120px; margin:34px auto 0; animation:beat 1.3s ease-in-out infinite; filter:drop-shadow(0 0 22px rgba(255,92,138,.7))}
+  @keyframes beat{0%,100%{transform:scale(1)}15%{transform:scale(1.14)}30%{transform:scale(.98)}45%{transform:scale(1.1)}}
+  .down{margin-top:44px; font-size:14px; letter-spacing:.2em; opacity:.7; animation:float 2.4s ease-in-out infinite}
+  @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(8px)}}
+
+  /* letter */
+  .letter{max-width:620px; background:rgba(255,244,240,.06); border:1px solid rgba(255,179,199,.2);
+    border-radius:18px; padding:40px 28px; backdrop-filter:blur(4px)}
+  .letter h2{font-size:clamp(36px,8vw,52px); color:var(--rose-soft); margin-bottom:18px}
+  .letter p{font-size:clamp(19px,4.6vw,23px); margin-bottom:14px}
+  .letter .sign{font-family:'Marck Script',cursive; font-size:28px; color:var(--gold); margin-top:10px}
+
+  /* gallery */
+  .gallery h2, .heartsec h2{font-size:clamp(38px,9vw,60px); color:var(--rose-soft); margin-bottom:40px}
+  .polaroids{display:flex; flex-wrap:wrap; justify-content:center; gap:44px 36px; max-width:1100px}
+  .pol{background:#fffaf6; padding:12px 12px 16px; width:min(300px,80vw); border-radius:3px;
+    box-shadow:0 18px 40px rgba(0,0,0,.55); color:#4a1a2b; transition:transform .5s ease}
+  .pol img{display:block; width:100%; height:auto; border-radius:2px}
+  .pol figcaption{font-family:'Marck Script',cursive; font-size:24px; margin-top:12px; line-height:1.2}
+  .pol:nth-child(odd){--r:-3deg} .pol:nth-child(even){--r:2.5deg}
+  .pol{transform:rotate(var(--r))}
+  .pol:hover{transform:rotate(0) scale(1.04)}
+  .tape{position:relative}
+  .tape::before{content:''; position:absolute; top:-14px; left:50%; width:90px; height:26px; transform:translateX(-50%) rotate(-3deg);
+    background:rgba(255,179,199,.55); box-shadow:0 1px 3px rgba(0,0,0,.15)}
+
+  /* reveal on scroll */
+  .reveal{opacity:0; translate:0 40px; transition:opacity 1s ease, translate 1s ease}
+  .reveal.in{opacity:1; translate:0 0}
+
+  /* photo heart */
+  .photoheart{width:min(520px,92vw); aspect-ratio:1/1; filter:drop-shadow(0 0 40px rgba(255,92,138,.45))}
+  .heartsec p{font-size:clamp(19px,4.6vw,23px); font-style:italic; max-width:520px; margin-top:28px; opacity:.9}
+
+  /* finale */
+  .finale .bigheart{width:min(260px,62vw); cursor:pointer; animation:beat 1.3s ease-in-out infinite;
+    filter:drop-shadow(0 0 34px rgba(255,92,138,.8)); -webkit-tap-highlight-color:transparent}
+  .finale .hint{margin-top:18px; font-size:15px; letter-spacing:.18em; opacity:.7}
+  .finale h2{font-size:clamp(52px,13vw,120px); line-height:1.05; color:#fff; margin-top:26px;
+    text-shadow:0 0 34px rgba(255,92,138,.8), 0 0 80px rgba(255,92,138,.4);
+    opacity:0; transform:scale(.8); transition:opacity 1.6s ease, transform 1.6s cubic-bezier(.2,.8,.2,1)}
+  .finale h2.show{opacity:1; transform:scale(1)}
+  .finale .love{margin-top:18px; font-size:clamp(20px,5vw,26px); font-style:italic; opacity:0; transition:opacity 1.6s ease 1s; color:var(--rose-soft)}
+  .finale .love.show{opacity:1}
+  .burst{position:fixed; pointer-events:none; z-index:5; font-size:24px; will-change:transform,opacity}
+
+  @media (prefers-reduced-motion: reduce){
+    .beat,.bigheart,.down{animation:none!important}
+    .reveal{opacity:1; translate:0 0}
+  }
+</style>
+</head>
+<body>
+<canvas id="sky"></canvas>
+
+<section class="hero">
+  <div class="kicker">наша годовщина</div>
+  <h1 class="script">Для самой любимой</h1>
+  <p>Эта страничка только для тебя. Здесь немного нас — и очень много моей любви.</p>
+  <svg class="beat" viewBox="0 0 32 29" aria-hidden="true"><path fill="#ff5c8a" d="M23.6 0c-3.4 0-6.3 2.7-7.6 5.6C14.7 2.7 11.8 0 8.4 0 3.8 0 0 3.8 0 8.4c0 9.4 9.5 11.9 16 21.3 6.1-9.3 16-12.1 16-21.3C32 3.8 28.2 0 23.6 0z"/></svg>
+  <div class="down">листай вниз ↓</div>
+</section>
+
+<section>
+  <div class="letter reveal">
+    <h2 class="script">Моя любимая,</h2>
+    <p>Ещё один год рядом с тобой — и я всё так же улыбаюсь, когда вижу твоё имя на экране.</p>
+    <p>Спасибо тебе за тёплые утра, за вкусные ужины, за твой смех, за твои дурачества и за то, как ты смотришь на меня.</p>
+    <p>С тобой даже самый обычный вечер на кухне становится лучшим днём в моей жизни.</p>
+    <div class="sign">Твой ❤</div>
+  </div>
+</section>
+
+<section class="gallery">
+  <h2 class="script reveal">Немного нас</h2>
+  <div class="polaroids">
+    <figure class="pol tape reveal"><img data-n="3" src="{{PHOTO_3}}" alt=""><figcaption>Самое нежное утро на свете</figcaption></figure>
+    <figure class="pol tape reveal"><img data-n="1" src="{{PHOTO_1}}" alt=""><figcaption>Моя хозяюшка и её огромный хлеб</figcaption></figure>
+    <figure class="pol tape reveal"><img data-n="4" src="{{PHOTO_4}}" alt=""><figcaption>Моя любимая дурашка</figcaption></figure>
+    <figure class="pol tape reveal"><img data-n="2" src="{{PHOTO_2}}" alt=""><figcaption>Я, когда тебя нет рядом</figcaption></figure>
+    <figure class="pol tape reveal"><img data-n="5" src="{{PHOTO_5}}" alt=""><figcaption>Глаза, в которых я тону</figcaption></figure>
+  </div>
+</section>
+
+<section class="heartsec">
+  <h2 class="script reveal">Моё сердце</h2>
+  <svg class="photoheart reveal" viewBox="0 0 32 29.7" aria-hidden="true">
+    <defs>
+      <clipPath id="hc"><path d="M23.6 0c-3.4 0-6.3 2.7-7.6 5.6C14.7 2.7 11.8 0 8.4 0 3.8 0 0 3.8 0 8.4c0 9.4 9.5 11.9 16 21.3 6.1-9.3 16-12.1 16-21.3C32 3.8 28.2 0 23.6 0z"/></clipPath>
+    </defs>
+    <g clip-path="url(#hc)">
+      <image data-n="3" x="0" y="0" width="16" height="15" preserveAspectRatio="xMidYMid slice"/>
+      <image data-n="5" x="16" y="0" width="16" height="15" preserveAspectRatio="xMidYMid slice"/>
+      <image data-n="1" x="0" y="15" width="16" height="15" preserveAspectRatio="xMidYMid slice"/>
+      <image data-n="4" x="16" y="15" width="16" height="15" preserveAspectRatio="xMidYMid slice"/>
+    </g>
+    <path d="M23.6 0c-3.4 0-6.3 2.7-7.6 5.6C14.7 2.7 11.8 0 8.4 0 3.8 0 0 3.8 0 8.4c0 9.4 9.5 11.9 16 21.3 6.1-9.3 16-12.1 16-21.3C32 3.8 28.2 0 23.6 0z" fill="none" stroke="#ff5c8a" stroke-width=".35"/>
+  </svg>
+  <p class="reveal">Оно целиком состоит из тебя.</p>
+</section>
+
+<section class="finale">
+  <svg class="bigheart" id="bigheart" viewBox="0 0 32 29" role="button" aria-label="Нажми на сердце"><path fill="#ff5c8a" d="M23.6 0c-3.4 0-6.3 2.7-7.6 5.6C14.7 2.7 11.8 0 8.4 0 3.8 0 0 3.8 0 8.4c0 9.4 9.5 11.9 16 21.3 6.1-9.3 16-12.1 16-21.3C32 3.8 28.2 0 23.6 0z"/></svg>
+  <div class="hint" id="hint">нажми на сердце</div>
+  <h2 class="script" id="final">С годовщиной, любимая</h2>
+  <div class="love" id="love">Я люблю тебя. Сегодня, завтра и всегда.</div>
+</section>
+
+<script>
+(function(){
+  // floating hearts in the background
+  const c=document.getElementById('sky'), x=c.getContext('2d');
+  let W,H,dpr=Math.min(window.devicePixelRatio||1,2), hs=[];
+  function size(){W=innerWidth;H=innerHeight;c.width=W*dpr;c.height=H*dpr;x.setTransform(dpr,0,0,dpr,0,0)}
+  size(); addEventListener('resize',size);
+  const N=Math.round(Math.min(40,W/22));
+  function mk(y){return{x:Math.random()*W,y:y??H+20,s:6+Math.random()*14,v:.25+Math.random()*.6,a:.12+Math.random()*.35,p:Math.random()*6.28}}
+  for(let i=0;i<N;i++) hs.push(mk(Math.random()*H));
+  function heart(px,py,s,a){
+    x.save(); x.translate(px,py); x.scale(s/16,s/16); x.globalAlpha=a; x.fillStyle='#ff5c8a';
+    x.beginPath(); x.moveTo(0,5);
+    x.bezierCurveTo(-8,-3,-16,4,0,15); x.bezierCurveTo(16,4,8,-3,0,5);
+    x.fill(); x.restore();
+  }
+  const still=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function tick(){
+    x.clearRect(0,0,W,H);
+    for(const h of hs){
+      if(!still){h.y-=h.v; h.p+=.01}
+      if(h.y<-30) Object.assign(h,mk());
+      heart(h.x+Math.sin(h.p)*18,h.y,h.s,h.a);
+    }
+    requestAnimationFrame(tick);
+  }
+  tick();
+
+  // heart collage reuses the gallery photos (keeps the file small)
+  document.querySelectorAll('image[data-n]').forEach(im=>im.setAttribute('href',document.querySelector('img[data-n="'+im.dataset.n+'"]').src));
+
+  // reveal on scroll
+  const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.15});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+  // finale
+  const big=document.getElementById('bigheart');
+  const glyphs=['❤','💕','💖','💗','💘'];
+  function burst(cx,cy,n){
+    for(let i=0;i<n;i++){
+      const s=document.createElement('span'); s.className='burst';
+      s.textContent=glyphs[i%glyphs.length];
+      s.style.left=cx+'px'; s.style.top=cy+'px'; s.style.fontSize=(16+Math.random()*26)+'px';
+      document.body.appendChild(s);
+      const ang=Math.random()*Math.PI*2, dist=120+Math.random()*Math.min(innerWidth,520)*.6;
+      s.animate([
+        {transform:'translate(-50%,-50%) scale(.3)',opacity:1},
+        {transform:`translate(calc(-50% + ${Math.cos(ang)*dist}px), calc(-50% + ${Math.sin(ang)*dist-80}px)) scale(1) rotate(${Math.random()*80-40}deg)`,opacity:0}
+      ],{duration:1600+Math.random()*1200,easing:'cubic-bezier(.15,.7,.3,1)'}).onfinish=()=>s.remove();
+    }
+  }
+  function open(){
+    const r=big.getBoundingClientRect();
+    burst(r.left+r.width/2,r.top+r.height/2,46);
+    document.getElementById('final').classList.add('show');
+    document.getElementById('love').classList.add('show');
+    document.getElementById('hint').textContent='нажимай ещё — любви много ❤';
+  }
+  big.addEventListener('click',open);
+  // also show the message on its own when she scrolls to the end
+  const fio=new IntersectionObserver(es=>{if(es[0].isIntersecting){setTimeout(()=>{if(!document.getElementById('final').classList.contains('show'))open()},2200);fio.disconnect()}},{threshold:.6});
+  fio.observe(big);
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Только для тебя ❤</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Marck+Script&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box; margin:0; padding:0}
+  body{
+    min-height:100vh; display:flex; align-items:center; justify-content:center; padding:20px 16px;
+    font-family:'Cormorant Garamond',Georgia,serif; color:#fff4f0; background:#1a0b12;
+    background-image:radial-gradient(900px 700px at 50% 0%, #4a1530 0%, transparent 65%),
+                     radial-gradient(700px 600px at 50% 110%, #3a1022 0%, transparent 60%);
+  }
+  .card{width:100%; max-width:400px; text-align:center; padding:44px 28px 36px; border-radius:22px;
+    background:rgba(255,244,240,.06); border:1px solid rgba(255,179,199,.22); backdrop-filter:blur(6px);
+    box-shadow:0 20px 60px rgba(0,0,0,.5)}
+  .lock{width:84px; height:84px; margin:0 auto 18px; animation:beat 1.4s ease-in-out infinite;
+    filter:drop-shadow(0 0 18px rgba(255,92,138,.7))}
+  @keyframes beat{0%,100%{transform:scale(1)}15%{transform:scale(1.12)}30%{transform:scale(.98)}45%{transform:scale(1.08)}}
+  h1{font-family:'Marck Script',cursive; font-weight:400; font-size:42px; color:#ffb3c7; line-height:1.1}
+  p{font-size:19px; font-style:italic; opacity:.85; margin:10px 0 26px}
+  input{width:100%; font:inherit; font-size:18px; text-align:center; padding:13px 16px; border-radius:999px; outline:none;
+    background:rgba(255,255,255,.08); color:#fff; border:1.5px solid rgba(255,179,199,.4)}
+  input:focus{border-color:#ff5c8a; box-shadow:0 0 0 4px rgba(255,92,138,.2)}
+  input::placeholder{color:rgba(255,244,240,.45)}
+  button{margin-top:14px; width:100%; font:inherit; font-size:19px; font-weight:600; padding:12px; border:0; border-radius:999px;
+    cursor:pointer; color:#fff; background:linear-gradient(135deg,#ff5c8a,#e0306a); box-shadow:0 8px 24px rgba(255,92,138,.35)}
+  button:disabled{opacity:.6; cursor:wait}
+  .msg{min-height:26px; margin-top:14px; font-size:17px; color:#ffb3c7}
+  .shake{animation:shake .4s}
+  @keyframes shake{20%,60%{transform:translateX(-8px)}40%,80%{transform:translateX(8px)}}
+</style>
+</head>
+<body>
+<div class="card" id="card">
+  <svg class="lock" viewBox="0 0 32 29" aria-hidden="true"><path fill="#ff5c8a" d="M23.6 0c-3.4 0-6.3 2.7-7.6 5.6C14.7 2.7 11.8 0 8.4 0 3.8 0 0 3.8 0 8.4c0 9.4 9.5 11.9 16 21.3 6.1-9.3 16-12.1 16-21.3C32 3.8 28.2 0 23.6 0z"/></svg>
+  <h1>Только для тебя</h1>
+  <p>Введи пароль, любимая</p>
+  <input type="password" id="pw" autocomplete="off" placeholder="пароль" aria-label="Пароль">
+  <button id="go">Открыть ❤</button>
+  <div class="msg" id="msg"></div>
+</div>
+<script>
+const PAYLOAD='{{PAYLOAD}}';
+const normalize=s=>s.trim().toLowerCase().replace(/ё/g,'е').replace(/\s+/g,'');
+async function unlock(){
+  const btn=document.getElementById('go'), msg=document.getElementById('msg'), card=document.getElementById('card');
+  const pwd=normalize(document.getElementById('pw').value||'');
+  if(!pwd){ msg.textContent='Сначала введи пароль ❤'; return; }
+  btn.disabled=true; msg.textContent='Открываю…';
+  try{
+    const raw=atob(PAYLOAD), buf=new Uint8Array(raw.length);
+    for(let i=0;i<raw.length;i++) buf[i]=raw.charCodeAt(i);
+    const salt=buf.slice(0,16), iv=buf.slice(16,28), ct=buf.slice(28);
+    const km=await crypto.subtle.importKey('raw',new TextEncoder().encode(pwd),'PBKDF2',false,['deriveKey']);
+    const key=await crypto.subtle.deriveKey({name:'PBKDF2',salt,iterations:{{ITER}},hash:'SHA-256'},km,{name:'AES-GCM',length:256},false,['decrypt']);
+    const html=new TextDecoder().decode(await crypto.subtle.decrypt({name:'AES-GCM',iv},key,ct));
+    document.open(); document.write(html); document.close();
+  }catch(e){
+    msg.textContent='Не тот пароль, попробуй ещё 💌';
+    card.classList.remove('shake'); void card.offsetWidth; card.classList.add('shake');
+    btn.disabled=false;
+  }
+}
+document.getElementById('go').onclick=unlock;
+document.getElementById('pw').addEventListener('keydown',e=>{ if(e.key==='Enter') unlock(); });
+</script>
+</body>
+</html>
