@@ -34,19 +34,19 @@
   @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(8px)}}
 
   /* letter */
-  .letter{max-width:620px; background:rgba(255,244,240,.06); border:1px solid rgba(255,179,199,.2);
+  .letter{max-width:720px; background:rgba(255,244,240,.06); border:1px solid rgba(255,179,199,.2);
     border-radius:18px; padding:40px 28px; backdrop-filter:blur(4px)}
   .letter h2{font-size:clamp(36px,8vw,52px); color:var(--rose-soft); margin-bottom:18px}
-  .letter p{font-size:clamp(19px,4.6vw,23px); margin-bottom:14px}
+  .letter p{font-size:clamp(19px,2.2vw,26px); margin-bottom:14px}
   .letter .sign{font-family:'Marck Script',cursive; font-size:28px; color:var(--gold); margin-top:10px}
 
   /* gallery */
   .gallery h2, .heartsec h2{font-size:clamp(38px,9vw,60px); color:var(--rose-soft); margin-bottom:40px}
-  .polaroids{display:flex; flex-wrap:wrap; justify-content:center; gap:44px 36px; max-width:1100px}
-  .pol{background:#fffaf6; padding:12px 12px 16px; width:min(300px,80vw); border-radius:3px;
+  .polaroids{display:flex; flex-wrap:wrap; justify-content:center; align-items:flex-start; gap:56px 44px; max-width:1320px}
+  .pol{background:#fffaf6; padding:14px 14px 18px; width:min(380px,86vw); border-radius:3px;
     box-shadow:0 18px 40px rgba(0,0,0,.55); color:#4a1a2b; transition:transform .5s ease}
   .pol img{display:block; width:100%; height:auto; border-radius:2px}
-  .pol figcaption{font-family:'Marck Script',cursive; font-size:24px; margin-top:12px; line-height:1.2}
+  .pol figcaption{font-family:'Marck Script',cursive; font-size:26px; margin-top:12px; line-height:1.2}
   .pol:nth-child(odd){--r:-3deg} .pol:nth-child(even){--r:2.5deg}
   .pol{transform:rotate(var(--r))}
   .pol:hover{transform:rotate(0) scale(1.04)}
@@ -59,7 +59,7 @@
   .reveal.in{opacity:1; translate:0 0}
 
   /* photo heart */
-  .photoheart{width:min(520px,92vw); aspect-ratio:1/1; filter:drop-shadow(0 0 40px rgba(255,92,138,.45))}
+  .photoheart{width:min(640px,92vw,80vh); aspect-ratio:1/1; filter:drop-shadow(0 0 40px rgba(255,92,138,.45))}
   .heartsec p{font-size:clamp(19px,4.6vw,23px); font-style:italic; max-width:520px; margin-top:28px; opacity:.9}
 
   /* finale */
@@ -122,6 +122,11 @@
     <figure class="pol tape reveal"><img data-n="19" src="{{PHOTO_19}}" alt=""><figcaption>Моя смешная и любимая</figcaption></figure>
     <figure class="pol tape reveal"><img data-n="20" src="{{PHOTO_20}}" alt=""><figcaption>Опять дразнишься 😛</figcaption></figure>
     <figure class="pol tape reveal"><img data-n="16" src="{{PHOTO_16}}" alt=""><figcaption>Я с пацанами, но мысли о тебе</figcaption></figure>
+    <figure class="pol tape reveal"><img data-n="23" src="{{PHOTO_23}}" alt=""><figcaption>Моя девочка с цветами и зайкой</figcaption></figure>
+    <figure class="pol tape reveal"><img data-n="24" src="{{PHOTO_24}}" alt=""><figcaption>Два дурачка на кухне</figcaption></figure>
+    <figure class="pol tape reveal"><img data-n="25" src="{{PHOTO_25}}" alt=""><figcaption>Твоя улыбка даже через экран</figcaption></figure>
+    <figure class="pol tape reveal"><img data-n="22" src="{{PHOTO_22}}" alt=""><figcaption>Наши вечерние созвоны</figcaption></figure>
+    <figure class="pol tape reveal"><img data-n="21" src="{{PHOTO_21}}" alt=""><figcaption>Зайка, сшитый с любовью</figcaption></figure>
     <figure class="pol tape reveal"><img data-n="6" src="{{PHOTO_6}}" alt=""><figcaption>Ты мой лучик ☀</figcaption></figure>
     <figure class="pol tape reveal"><img data-n="11" src="{{PHOTO_11}}" alt=""><figcaption>Ты заняла всё моё сердце</figcaption></figure>
   </div>
